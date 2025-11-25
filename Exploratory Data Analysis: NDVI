@@ -1,0 +1,74 @@
+# Exploratory Data Analysis: NDVI Sentinel-2 Data
+
+## Executive Summary
+
+This script analyzes vegetation health using NDVI (Normalized Difference Vegetation Index) data from Sentinel-2 satellite imagery for Berlin, Germany, covering 2020-2023. The analysis involves spatial masking, time series generation, and visualization.
+
+## Data Overview
+
+### Input Data Sources
+1. **Satellite Imagery**: Sentinel-2 NDVI raster files (GeoTIFF format)
+   - Temporal Coverage: 2020-2023 (quarterly data)
+   - Format: INT8 (0-254 scale), nodata = 255
+   - Converted to: FLOAT (-1 to 1 scale)
+
+2. **Administrative Boundaries**: GADM (Global Administrative Areas) v4.1.0
+   - Geographic scope: Europe
+   - Format: GeoPackage (.gpkg)
+   - Hierarchy: Country (GID_0) → Region (NAME_2)
+
+### Study Area
+- **Country**: Spain (ESP)
+- **City**: Barcelona
+- **Analysis Period**: 16 quarters (Q1 2020 - Q4 2023)
+
+
+## Code Structure Analysis
+
+### Functions
+**`quarter2timeperiod(year, quarter)`**
+- Converts quarter notation to date range strings
+- Input: Year and quarter (1-4)
+- Output: String format "YYYY-MM-DD_YYYY-MM-DD"
+- Note: Q1 includes previous December
+
+**`convert_ndvi_to_real_scale(ndvi_img, out_meta)`**
+- Transforms INT8 (0-254) to FLOAT (-1 to 1)
+- Replaces nodata (255) with np.nan
+- Formula: `(value / 254) * 2 - 1`
+
+**`get_out_image_and_metadata(filepath, one_city_gdf)`**
+- Masks raster to city boundary
+- Reprojects geometry to match raster CRS
+- Returns cropped image and updated metadata
+
+
+## NDVI Interpretation Guide
+
+### Value Ranges
+- **< -0.1**: Water, urban areas, bare soil
+- **-0.1 - 0.1**: Barren areas, rock, sand, concrete, urban surfaces, snow
+- **0.1 - 0.2**: Sparse vegetation, Bare soil, low biomass
+- **0.2 - 0.4**: Low-Moderate vegetation, grasslands, shrubland
+- **0.4 - 0.6**: Moderate–high vegetation, Croplands, mixed forests
+- **> 0.6**: Very dense, lush vegetation
+
+### Seasonal Expectations (Berlin)
+- **Q1 (Winter)**: Low NDVI (0.1-0.3) - dormant vegetation
+- **Q2 (Spring)**: Rising NDVI (0.3-0.5) - greening
+- **Q3 (Summer)**: Peak NDVI (0.5-0.7) - maximum vegetation
+- **Q4 (Fall)**: Declining NDVI (0.3-0.5) - senescence
+
+## Next Steps for Analysis
+
+1. **Fix Critical Bugs**: Update hardcoded paths
+2. **Add Validation**: Implement all error checking
+3. **Expand Statistics**: Calculate descriptive stats per quarter
+4. **Comparative Analysis**: Compare Berlin to other German cities
+5. **Export Results**: Save processed data for reporting
+6. **Documentation**: Add docstrings to all functions
+7. **Testing**: Create unit tests for conversion functions
+
+## Conclusion
+
+This script provides a solid foundation for NDVI analysis but requires several fixes before production use. The primary issue is the hardcoded file path in the time series loop, which invalidates temporal analysis. After addressing these issues, the framework can effectively monitor vegetation health changes over time.
