@@ -54,10 +54,10 @@ This script analyzes vegetation health using NDVI (Normalized Difference Vegetat
 - **> 0.6**: Very dense, lush vegetation
 
 ### Seasonal Expectations (Berlin)
-- **Q1 (Winter)**: Low NDVI (0.1-0.3) - dormant vegetation
-- **Q2 (Spring)**: Rising NDVI (0.3-0.5) - greening
-- **Q3 (Summer)**: Peak NDVI (0.5-0.7) - maximum vegetation
-- **Q4 (Fall)**: Declining NDVI (0.3-0.5) - senescence
+- **Q1 (12-03)**: Low NDVI (0.1-0.3) - dormant vegetation
+- **Q2 (03-06)**: Peak NDVI (0.5-0.8) - maximum vegetation
+- **Q3 (06-09)**: Declining NDVI (0.2-0.5) - senescence
+- **Q4 (09-12)**: Rising NDVI (0.3-0.5) - greening
 
 ## Next Steps for Analysis
 
